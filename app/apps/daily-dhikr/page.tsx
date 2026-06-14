@@ -322,10 +322,18 @@ const slides = [
 
 /* ── Feature Carousel (Apple-style scroll-progress) ── */
 const TOTAL = slides.length;        // 7 feature pages
-const VH_PER_PAGE = 150;            // each page occupies 1.5 viewports of scroll
+const VH_DESKTOP = 150;             // desktop: each feature occupies 1.5 viewports of scroll
+const VH_MOBILE  = 100;             // mobile:  1 screen = 1 feature
+
+/** Returns vh-per-page based on current viewport width. Safe to call during scroll. */
+function getVhPerPage() {
+  return window.innerWidth < 768 ? VH_MOBILE : VH_DESKTOP;
+}
 
 function FeatureCarousel() {
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  // vhPerPage drives JSX section height + snap-anchor positions (must be state so SSR→CSR hydrates correctly)
+  const [vhPerPage, setVhPerPage] = useState(VH_DESKTOP);
 
   // 3D phone lerp target — continuous float driven by physical scroll
   const activeFloatRef = useRef(0);
@@ -333,22 +341,12 @@ function FeatureCarousel() {
   const sectionRef = useRef<HTMLElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
-  // Debug: log band positions and distances once on mount and on resize
+  // Keep section height in sync with breakpoint
   useEffect(() => {
-    const logBands = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const band = window.innerHeight * 1.5;
-      const sectionTop = window.scrollY + section.getBoundingClientRect().top;
-      const positions = Array.from({ length: TOTAL }, (_, i) => sectionTop + i * band);
-      positions.forEach((pos, i) => console.log(`Page ${i + 1} position = ${Math.round(pos)}`));
-      for (let i = 0; i < TOTAL - 1; i++) {
-        console.log(`${i + 1} → ${i + 2} = ${Math.round(positions[i + 1] - positions[i])} (innerHeight = ${band})`);
-      }
-    };
-    logBands();
-    window.addEventListener("resize", logBands);
-    return () => window.removeEventListener("resize", logBands);
+    const sync = () => setVhPerPage(getVhPerPage());
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
   }, []);
 
   useEffect(() => {
@@ -359,7 +357,8 @@ function FeatureCarousel() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const band = window.innerHeight * 1.5;
+      // Re-read per-frame so resize / orientation changes take effect immediately
+      const band = window.innerHeight * (getVhPerPage() / 100);
       if (band <= 0) return;
       const rect = section.getBoundingClientRect();
 
@@ -405,7 +404,7 @@ function FeatureCarousel() {
   const scrollToPage = (i: number) => {
     const section = sectionRef.current;
     if (!section) return;
-    window.scrollTo({ top: section.offsetTop + i * window.innerHeight * 1.5, behavior: "smooth" });
+    window.scrollTo({ top: section.offsetTop + i * window.innerHeight * (getVhPerPage() / 100), behavior: "smooth" });
   };
 
   // Tall section scrolled by the WINDOW. Sticky child pins only once the
@@ -417,7 +416,7 @@ function FeatureCarousel() {
     <section
       ref={sectionRef}
       className="bg-[#fafaf9]"
-      style={{ position: "relative", height: `${TOTAL * VH_PER_PAGE}vh` }}
+      style={{ position: "relative", height: `${TOTAL * vhPerPage}vh` }}
     >
       {/* Invisible snap anchors, one per band */}
       {slides.map((_, i) => (
@@ -426,7 +425,7 @@ function FeatureCarousel() {
           aria-hidden
           style={{
             position: "absolute",
-            top: `${i * VH_PER_PAGE}vh`,
+            top: `${i * vhPerPage}vh`,
             left: 0,
             right: 0,
             height: "100vh",

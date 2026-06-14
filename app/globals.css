@@ -53,7 +53,14 @@ body {
   }
 
   .carousel-sticky-stage {
-    height: calc(100svh - 64px) !important;
+    /*
+     * svh = small viewport height (Safari bars visible = minimum area).
+     * env(safe-area-inset-bottom) accounts for iPhone home indicator
+     * when viewport-fit=cover is active (set in layout.tsx viewport export).
+     */
+    height: calc(100svh - 64px - env(safe-area-inset-bottom, 0px)) !important;
+    /* Remove overflow-hidden from stage; clip 3D rings per-column instead */
+    overflow: visible !important;
   }
 
   .carousel-grid {
@@ -64,8 +71,16 @@ body {
   }
 
   .carousel-phone-col {
-    height: clamp(300px, 55svh, 480px) !important;
+    /*
+     * Was clamp(300px, 55svh, 480px) — on iPhone 12 this is ~365px,
+     * leaving only ~223px for text+progress (not enough).
+     * Now clamp(200px, 38svh, 340px) — ~252px on iPhone 12,
+     * leaving ~302px for text — progress bar fits comfortably.
+     * overflow:hidden clips 3D ring overflows inside this column only.
+     */
+    height: clamp(200px, 38svh, 340px) !important;
     flex-shrink: 0;
+    overflow: hidden;
   }
 
   .carousel-text-col {
@@ -73,8 +88,9 @@ body {
     display: flex !important;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 16px;
+    padding-top: 12px;
     min-height: 0;
+    overflow: visible;
   }
 
   .carousel-feature-counter {
@@ -82,6 +98,7 @@ body {
   }
 
   .carousel-progress {
-    margin-top: 56px !important;
+    /* Was 56px — too large for real iPhone flex space. 20px keeps bar visible. */
+    margin-top: 20px !important;
   }
 }
