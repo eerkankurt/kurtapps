@@ -14,7 +14,7 @@ function Navbar() {
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <Link href="/" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">← Home</Link>
-          <Link href="/#walkrun" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Apps</Link>
+          <Link href="/#apps" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Apps</Link>
         </div>
         <button className="md:hidden text-[#555] hover:text-[#111]" onClick={() => setOpen(!open)}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -27,7 +27,7 @@ function Navbar() {
       {open && (
         <div className="md:hidden bg-[#fafaf9] border-b border-black/[0.07] px-6 py-5 flex flex-col gap-5">
           <Link href="/" className="text-sm text-[#555]" onClick={() => setOpen(false)}>← Home</Link>
-          <Link href="/#walkrun" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Apps</Link>
+          <Link href="/#apps" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Apps</Link>
         </div>
       )}
     </nav>
@@ -41,20 +41,56 @@ type FormState = {
   message: string;
 };
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export default function SupportPage() {
   const [form, setForm] = useState<FormState>({ app: "", name: "", email: "", message: "" });
-  const [appError, setAppError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const set = (field: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => setForm(f => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.app) { setAppError(true); return; }
-    setAppError(false);
-    setSubmitted(true);
+
+    const name = form.name.trim();
+    const email = form.email.trim();
+    const message = form.message.trim();
+
+    if (!name || !email || !message) {
+      setErrorMsg("Please fill in all required fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    setErrorMsg("");
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, name, email, message }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+      } else {
+        const data = await res.json();
+        setErrorMsg(data.error || "Something went wrong. Please try again.");
+        setStatus("error");
+      }
+    } catch {
+      setErrorMsg("Something went wrong. Please try again.");
+      setStatus("error");
+    }
   };
 
   const inputClass =
@@ -83,7 +119,7 @@ export default function SupportPage() {
           </div>
 
           {/* Success */}
-          {submitted ? (
+          {status === "success" ? (
             <div className="bg-white border border-[#f0eeea] rounded-3xl px-8 py-12 text-center">
               <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-5">
                 <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -92,10 +128,10 @@ export default function SupportPage() {
               </div>
               <h2 className="text-lg font-semibold text-[#111] mb-2">Message received.</h2>
               <p className="text-sm text-[#555] leading-relaxed max-w-xs mx-auto">
-                Thanks — your message is ready to be connected to support email.
+                Thanks — we&apos;ll get back to you within 24 hours.
               </p>
               <button
-                onClick={() => { setSubmitted(false); setForm({ app: "", name: "", email: "", message: "" }); }}
+                onClick={() => { setStatus("idle"); setForm({ app: "", name: "", email: "", message: "" }); }}
                 className="mt-8 text-sm text-[#888] hover:text-[#111] transition-colors duration-200 underline underline-offset-4"
               >
                 Send another message
@@ -105,15 +141,15 @@ export default function SupportPage() {
             /* Form */
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-7">
 
-              {/* App selection */}
+              {/* App selection — optional */}
               <div>
-                <span className={labelClass}>App</span>
+                <span className={labelClass}>App <span className="normal-case tracking-normal text-[#ccc]">(optional)</span></span>
                 <div className="flex gap-3">
                   {["WalkRun", "Dhikr Counter"].map(app => (
                     <button
                       key={app}
                       type="button"
-                      onClick={() => { setForm(f => ({ ...f, app })); setAppError(false); }}
+                      onClick={() => setForm(f => ({ ...f, app: f.app === app ? "" : app }))}
                       className={`flex-1 py-3 rounded-2xl text-sm font-medium border transition-all duration-200 ${
                         form.app === app
                           ? "bg-[#111] text-white border-[#111]"
@@ -124,9 +160,6 @@ export default function SupportPage() {
                     </button>
                   ))}
                 </div>
-                {appError && (
-                  <p className="mt-2 text-xs text-red-500">Please select an app.</p>
-                )}
               </div>
 
               {/* Name */}
@@ -138,7 +171,6 @@ export default function SupportPage() {
                   placeholder="Your full name"
                   value={form.name}
                   onChange={set("name")}
-                  required
                   className={inputClass}
                 />
               </div>
@@ -152,7 +184,6 @@ export default function SupportPage() {
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={set("email")}
-                  required
                   className={inputClass}
                 />
               </div>
@@ -165,18 +196,23 @@ export default function SupportPage() {
                   placeholder="Describe your issue or question..."
                   value={form.message}
                   onChange={set("message")}
-                  required
                   rows={5}
                   className={`${inputClass} resize-none leading-relaxed`}
                 />
               </div>
 
+              {/* Error */}
+              {(status === "error" || errorMsg) && (
+                <p className="text-xs text-red-500 -mt-3">{errorMsg}</p>
+              )}
+
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-[#111] text-white text-sm font-medium py-4 rounded-2xl hover:bg-[#2a2a2a] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.14)] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                disabled={status === "loading"}
+                className="w-full bg-[#111] text-white text-sm font-medium py-4 rounded-2xl hover:bg-[#2a2a2a] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.14)] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none"
               >
-                Send Message
+                {status === "loading" ? "Sending…" : "Send Message"}
               </button>
 
             </form>
