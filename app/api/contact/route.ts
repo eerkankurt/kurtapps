@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 export async function POST(req: NextRequest) {
-  // Diagnostic: log env var presence (never log actual values)
-  console.log("[contact] env check:", {
-    ZOHO_SMTP_HOST: !!process.env.ZOHO_SMTP_HOST,
-    ZOHO_SMTP_PORT: !!process.env.ZOHO_SMTP_PORT,
-    ZOHO_SMTP_USER: !!process.env.ZOHO_SMTP_USER,
-    ZOHO_SMTP_PASS: !!process.env.ZOHO_SMTP_PASS,
-  });
-
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const body = await req.json();
 
   const name = (body.name ?? "").trim();
@@ -35,52 +28,23 @@ export async function POST(req: NextRequest) {
 
   const text = `App:\n${app || "Not specified"}\n\nFull Name:\n${name}\n\nEmail:\n${email}\n\nMessage:\n${message}`;
 
-  console.log("[contact] creating transporter...");
-  const transporter = nodemailer.createTransport({
-    host: process.env.ZOHO_SMTP_HOST,
-    port: Number(process.env.ZOHO_SMTP_PORT),
-    secure: Number(process.env.ZOHO_SMTP_PORT) === 465,
-    auth: {
-      user: process.env.ZOHO_SMTP_USER,
-      pass: process.env.ZOHO_SMTP_PASS,
-    },
-  });
-
-  const withTimeout = <T>(promise: Promise<T>, ms: number): Promise<T> =>
-    Promise.race([
-      promise,
-      new Promise<T>((_, reject) =>
-        setTimeout(() => reject(new Error(`Timed out after ${ms}ms`)), ms)
-      ),
-    ]);
-
-  // Verify SMTP connection
   try {
-    console.log("[contact] verifying SMTP connection...");
-    await withTimeout(transporter.verify(), 15000);
-    console.log("[contact] SMTP verify OK");
-  } catch (err) {
-    console.error("[contact] SMTP verify failed:", err);
-    return NextResponse.json({ error: "Failed to connect to mail server." }, { status: 500 });
-  }
+    const { error } = await resend.emails.send({
+      from: "KurtApps Support <support@kurtapps.com>",
+      to: "support@kurtapps.com",
+      replyTo: email,
+      subject,
+      text,
+    });
 
-  // Send mail
-  try {
-    console.log("[contact] sending mail to support@kurtapps.com...");
-    await withTimeout(
-      transporter.sendMail({
-        from: process.env.ZOHO_SMTP_USER,
-        to: "support@kurtapps.com",
-        replyTo: email,
-        subject,
-        text,
-      }),
-      15000
-    );
-    console.log("[contact] mail sent successfully");
+    if (error) {
+      console.error("[contact]", error);
+      return NextResponse.json({ error: "Failed to send message. Please try again." }, { status: 500 });
+    }
+
     return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("[contact] sendMail failed:", err);
+  } catch (error) {
+    console.error("[contact]", error);
     return NextResponse.json({ error: "Failed to send message. Please try again." }, { status: 500 });
   }
 }
