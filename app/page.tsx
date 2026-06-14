@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
+
 /* ── Scroll reveal ── */
 function FadeIn({
   children,
@@ -66,38 +67,43 @@ function StatusIcons() {
 function IPhone({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative" style={{ width: 276, height: 542 }}>
-      {/* Buttons */}
-      <div className="absolute rounded-sm" style={{ left: 0, top: 104, width: 3.5, height: 20, background: "#3a3a3c" }} />
-      <div className="absolute rounded-sm" style={{ left: 0, top: 138, width: 3.5, height: 30, background: "#3a3a3c" }} />
-      <div className="absolute rounded-sm" style={{ left: 0, top: 180, width: 3.5, height: 30, background: "#3a3a3c" }} />
-      <div className="absolute rounded-sm" style={{ right: 0, top: 150, width: 3.5, height: 50, background: "#3a3a3c" }} />
+      {/* Left buttons */}
+      <div className="absolute" style={{ left: 2, top: 108, width: 4, height: 22, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ left: 2, top: 142, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ left: 2, top: 186, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
+      {/* Right button */}
+      <div className="absolute" style={{ right: 2, top: 154, width: 4, height: 54, borderRadius: 2, background: "#2a2a2c" }} />
 
-      {/* Body */}
+      {/* Main frame - black */}
       <div
-        className="absolute overflow-hidden"
+        className="absolute"
         style={{
-          top: 0, bottom: 0, left: 4, right: 4,
-          borderRadius: 44,
-          background: "#1c1c1e",
-          boxShadow:
-            "0 50px 100px rgba(0,0,0,0.28), 0 16px 32px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.1)",
+          top: 0, bottom: 0, left: 6, right: 6,
+          borderRadius: 52,
+          background: "linear-gradient(160deg, #3a3a3c 0%, #1c1c1e 50%, #111 100%)",
+          boxShadow: "0 40px 80px rgba(0,0,0,0.36), 0 12px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.3)",
+          padding: 7,
         }}
       >
         {/* Screen */}
-        <div
-          className="absolute overflow-hidden"
-          style={{ top: 3, left: 3, right: 3, bottom: 3, borderRadius: 41, background: "white" }}
-        >
-          {children}
+        <div className="relative w-full h-full overflow-hidden" style={{ borderRadius: 46, background: "#fff" }}>
+          {/* Dynamic Island */}
+          <div className="absolute" style={{
+            top: 12, left: "50%", transform: "translateX(-50%)",
+            width: 100, height: 28,
+            borderRadius: 20,
+            background: "#000",
+            zIndex: 10,
+          }} />
+          <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: 46 }}>
+            {children}
+          </div>
         </div>
         {/* Frame glare */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            borderRadius: 44,
-            background: "linear-gradient(145deg, rgba(255,255,255,0.07) 0%, transparent 45%)",
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          borderRadius: 52,
+          background: "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, transparent 40%)",
+        }} />
       </div>
     </div>
   );
@@ -106,17 +112,13 @@ function IPhone({ children }: { children: React.ReactNode }) {
 /* ── WalkRun app screen ── */
 function WalkRunScreen() {
   return (
-    <div className="h-full flex flex-col" style={{ background: "#f8f9fa" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px 0" }}>
+    <div className="h-full flex flex-col relative" style={{ background: "#f8f9fa" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "52px 14px 0" }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: "#111", letterSpacing: -0.3 }}>9:41</span>
         <StatusIcons />
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", padding: "5px 0 8px" }}>
-        <div style={{ width: 118, height: 30, borderRadius: 20, background: "#000" }} />
-      </div>
-
-      <div style={{ padding: "0 14px 10px" }}>
+      <div style={{ padding: "6px 14px 10px" }}>
         <div style={{ fontSize: 9, color: "#9ca3af", fontWeight: 600, letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 2 }}>Active Run</div>
         <div style={{ fontSize: 17, fontWeight: 700, color: "#111", letterSpacing: -0.5 }}>Morning Run</div>
       </div>
@@ -166,28 +168,35 @@ function WalkRunScreen() {
           </div>
         ))}
       </div>
+
+      {/* Coming soon overlay */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center gap-2.5"
+        style={{ background: "rgba(248,249,250,0.88)", backdropFilter: "blur(14px)", borderRadius: 46 }}
+      >
+        <div style={{ background: "#111", color: "white", fontSize: 10, fontWeight: 600, padding: "5px 14px", borderRadius: 20, letterSpacing: 0.4 }}>
+          Coming Soon
+        </div>
+        <div style={{ fontSize: 10, color: "#bbb" }}>Launching 2026</div>
+      </div>
     </div>
   );
 }
 
-/* ── Daily Dhikr app screen ── */
+/* ── Dhikr Counter app screen ── */
 function DhikrScreen() {
   const r = 40;
   const circ = 2 * Math.PI * r;
 
   return (
     <div className="h-full flex flex-col relative" style={{ background: "#fffaf7" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px 0" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "52px 14px 0" }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: "#111", letterSpacing: -0.3 }}>9:41</span>
         <StatusIcons />
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", padding: "5px 0 16px" }}>
-        <div style={{ width: 118, height: 30, borderRadius: 20, background: "#000" }} />
-      </div>
-
-      <div style={{ textAlign: "center", marginBottom: 22 }}>
-        <div style={{ fontSize: 9, color: "#c4a882", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>Daily Dhikr</div>
+      <div style={{ textAlign: "center", marginBottom: 22, marginTop: 12 }}>
+        <div style={{ fontSize: 9, color: "#c4a882", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>Dhikr Counter</div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -333,14 +342,14 @@ function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Image src="/branding/logo.svg" alt="KurtApps" width={120} height={30} priority />
+        <a href="/"><Image src="/branding/logo.svg" alt="KurtApps" width={120} height={30} priority /></a>
 
         <div className="hidden md:flex items-center gap-8">
-          <a href="#walkrun" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">Apps</a>
-          <a href="/support" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">Support</a>
+          <a href="#apps" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Apps</a>
+          <a href="/support" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Support</a>
         </div>
 
-        <button className="md:hidden text-[#888] hover:text-[#111] transition-colors" onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-[#555] hover:text-[#111] transition-colors" onClick={() => setOpen(!open)}>
           {open ? (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M4 4l12 12M4 16L16 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -355,8 +364,8 @@ function Navbar() {
 
       {open && (
         <div className="md:hidden bg-[#fafaf9] border-b border-black/[0.07] px-6 py-5 flex flex-col gap-5">
-          <a href="#walkrun" className="text-sm text-[#888]" onClick={() => setOpen(false)}>Apps</a>
-          <a href="/support" className="text-sm text-[#888]" onClick={() => setOpen(false)}>Support</a>
+          <a href="#apps" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Apps</a>
+          <a href="/support" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Support</a>
         </div>
       )}
     </nav>
@@ -382,12 +391,12 @@ function Hero() {
           <span className="text-[#c0c0c0]">everyday life.</span>
         </h1>
 
-        <p className="fade-up d3 text-base md:text-lg text-[#888] max-w-sm mx-auto mb-10 leading-relaxed">
+        <p className="fade-up d3 text-base md:text-lg text-[#555] max-w-sm mx-auto mb-10 leading-relaxed">
           KurtApps designs calm, modern mobile experiences that feel intuitive, useful, and beautifully simple.
         </p>
 
         <div className="fade-up d4 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button onClick={() => document.getElementById("walkrun")?.scrollIntoView({ behavior: "smooth" })} className="w-full sm:w-auto text-sm bg-[#111] text-white px-7 py-3 rounded-full font-medium hover:bg-[#2a2a2a] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.14)] active:scale-[0.97] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <button onClick={() => document.getElementById("apps")?.scrollIntoView({ behavior: "smooth" })} className="w-full sm:w-auto text-sm bg-[#111] text-white px-7 py-3 rounded-full font-medium hover:bg-[#2a2a2a] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.14)] active:scale-[0.97] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
             Explore Apps
           </button>
           <a href="/support" className="w-full sm:w-auto text-sm text-[#888] border border-black/[0.12] bg-white px-7 py-3 rounded-full font-medium hover:border-black/[0.22] hover:text-[#111] hover:-translate-y-px transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
@@ -402,57 +411,35 @@ function Hero() {
 /* ── WalkRun showcase ── */
 function WalkRunShowcase() {
   return (
-    <section id="walkrun" className="py-32 px-6 border-t border-[#f0eeea] overflow-hidden">
-      <div className="max-w-6xl mx-auto">
+    <section id="walkrun" className="px-6 overflow-hidden min-h-screen flex items-center">
+      <div className="max-w-6xl mx-auto w-full">
         <div className="grid md:grid-cols-2 gap-16 md:gap-20 items-center">
 
-          <FadeIn>
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Fitness · Available Now</p>
+          <FadeIn className="md:order-2">
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Fitness · Coming Soon</p>
             <h2 className="text-5xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6">
               WalkRun
             </h2>
-            <p className="text-[#888] leading-relaxed mb-10" style={{ maxWidth: 340 }}>
-              Track your walks, runs, and hikes with detailed analytics, intelligent route mapping, and real-time performance insights.
+            <p className="text-[#555] leading-relaxed mb-10" style={{ maxWidth: 340 }}>
+              Track your walks, runs, and hikes with detailed analytics, smart route tracking, and real-time performance insights.
             </p>
 
-            <div className="flex items-center gap-7 mb-10">
-              <div>
-                <div className="text-xl font-semibold text-[#111]">4.8</div>
-                <div className="text-xs text-[#bbb] mt-0.5">App Store Rating</div>
-              </div>
-              <div className="w-px h-8 bg-[#ebebea]" />
-              <div>
-                <div className="text-xl font-semibold text-[#111]">10K+</div>
-                <div className="text-xs text-[#bbb] mt-0.5">Active Users</div>
-              </div>
+            <div className="inline-flex items-center gap-2 bg-[#f5f5f3] border border-black/[0.07] rounded-full px-4 py-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#aaa] inline-block" />
+              <span className="text-xs text-[#888] font-medium">Launching soon on iOS</span>
             </div>
-
-            <div className="flex flex-wrap gap-3 mb-5">
-              <AppStoreBadge />
-              <GooglePlayBadge />
-            </div>
-            <a href="/apps/walkrun" className="inline-flex items-center gap-1.5 text-sm text-[#888] hover:text-[#111] transition-colors duration-200 group">
-              Learn more
-              <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
           </FadeIn>
 
-          <FadeIn delay={160} className="flex justify-center">
+          <FadeIn delay={160} className="flex justify-center md:order-1">
             <div className="relative">
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  width: 440, height: 440,
-                  top: "50%", left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(134,239,172,0.55), transparent 68%)",
-                  filter: "blur(65px)",
-                  transition: "opacity 0.5s ease",
-                }}
-              />
+              <div className="absolute pointer-events-none" style={{
+                width: 440, height: 440,
+                top: "50%", left: "50%",
+                transform: "translate(-50%, -50%)",
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(134,239,172,0.45), transparent 68%)",
+                filter: "blur(60px)",
+              }} />
               <PhoneTilt>
                 <div className="float">
                   <IPhone><WalkRunScreen /></IPhone>
@@ -467,27 +454,23 @@ function WalkRunShowcase() {
   );
 }
 
-/* ── Daily Dhikr showcase ── */
+/* ── Dhikr Counter showcase ── */
 function DhikrShowcase() {
   return (
-    <section className="py-32 px-6 border-t border-[#f0eeea] bg-white overflow-hidden">
-      <div className="max-w-6xl mx-auto">
+    <section id="apps" className="px-6 overflow-hidden min-h-screen flex items-center">
+      <div className="max-w-6xl mx-auto w-full">
         <div className="grid md:grid-cols-2 gap-16 md:gap-20 items-center">
 
-          <FadeIn delay={80} className="flex justify-center md:order-1">
+          <FadeIn delay={80} className="flex justify-center md:order-2">
             <div className="relative">
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  width: 440, height: 440,
-                  top: "50%", left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(196,181,253,0.5), transparent 68%)",
-                  filter: "blur(65px)",
-                  transition: "opacity 0.5s ease",
-                }}
-              />
+              <div className="absolute pointer-events-none" style={{
+                width: 440, height: 440,
+                top: "50%", left: "50%",
+                transform: "translate(-50%, -50%)",
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(196,181,253,0.45), transparent 68%)",
+                filter: "blur(60px)",
+              }} />
               <PhoneTilt>
                 <div className="float-delay">
                   <IPhone><DhikrScreen /></IPhone>
@@ -496,25 +479,24 @@ function DhikrShowcase() {
             </div>
           </FadeIn>
 
-          <FadeIn delay={120} className="md:order-2">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Spirituality · Coming Soon</p>
+          <FadeIn delay={120} className="md:order-1 md:pl-28">
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Spirituality · Available Now</p>
             <h2 className="text-5xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6">
-              Daily Dhikr
+              Dhikr Counter
             </h2>
-            <p className="text-[#888] leading-relaxed mb-10" style={{ maxWidth: 340 }}>
-              Build a meaningful daily practice with guided dhikr routines, gentle reminders, and beautiful progress tracking.
+            <p className="text-[#555] leading-relaxed mb-10" style={{ maxWidth: 340 }}>
+              Count your dhikr with a built-in counter, set daily goals, create reminders, and track your progress.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-5">
+            <div className="flex flex-wrap gap-3">
               <AppStoreBadge />
-              <GooglePlayBadge />
+              <a href="/apps/daily-dhikr" className="inline-flex items-center gap-2 text-sm font-medium text-[#111] border border-black/[0.14] bg-white px-5 py-2.5 rounded-2xl hover:border-black/30 hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group">
+                Learn more
+                <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
             </div>
-            <a href="/apps/daily-dhikr" className="inline-flex items-center gap-1.5 text-sm text-[#888] hover:text-[#111] transition-colors duration-200 group">
-              Learn more
-              <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
           </FadeIn>
 
         </div>
@@ -526,7 +508,7 @@ function DhikrShowcase() {
 /* ── Support ── */
 function Support() {
   return (
-    <section id="support" className="py-24 px-6 border-t border-[#f0eeea]">
+    <section id="support" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-end">
           <FadeIn>
@@ -534,22 +516,24 @@ function Support() {
             <h2 className="text-4xl md:text-5xl font-semibold text-[#111] tracking-tight leading-[1.1] mb-5">
               We&apos;re here<br />to help.
             </h2>
-            <p className="text-sm text-[#888] leading-relaxed" style={{ maxWidth: 300 }}>
+            <p className="text-sm text-[#555] leading-relaxed" style={{ maxWidth: 300 }}>
               Questions, feedback, or something not working? Reach out and we&apos;ll get back to you quickly.
             </p>
           </FadeIn>
 
-          <FadeIn delay={100} className="flex flex-col items-start md:items-end gap-3">
-            <a
-              href="mailto:support@kurtapps.com"
-              className="inline-flex items-center gap-2.5 bg-[#111] text-white text-sm font-medium px-7 py-3.5 rounded-full hover:bg-[#2a2a2a] active:scale-[0.97] transition-all duration-200"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              support@kurtapps.com
-            </a>
-            <p className="text-xs text-[#bbb]">Usually responds within 24 hours.</p>
+          <FadeIn delay={100} className="flex flex-col items-start md:items-end">
+            <div className="flex flex-col items-center gap-3">
+              <a
+                href="mailto:support@kurtapps.com"
+                className="inline-flex items-center gap-2.5 bg-[#111] text-white text-sm font-medium px-7 py-3.5 rounded-full hover:bg-[#2a2a2a] active:scale-[0.97] transition-all duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                support@kurtapps.com
+              </a>
+              <p className="text-xs text-[#bbb]">Usually responds within 24 hours.</p>
+            </div>
           </FadeIn>
         </div>
       </div>
@@ -560,41 +544,41 @@ function Support() {
 /* ── Footer ── */
 function Footer() {
   return (
-    <footer className="border-t border-[#f0eeea] bg-white">
+    <footer className="border-t border-[#f0eeea]">
       <div className="max-w-6xl mx-auto px-6 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           <div className="col-span-2 md:col-span-1">
             <span className="text-sm font-semibold text-[#111] block mb-3">KurtApps</span>
-            <p className="text-xs text-[#bbb] leading-relaxed" style={{ maxWidth: 200 }}>
+            <p className="text-xs text-[#666] leading-relaxed" style={{ maxWidth: 200 }}>
               KurtApps designs calm, modern mobile experiences that feel intuitive, useful, and beautifully simple.
             </p>
           </div>
           <div>
             <p className="text-xs font-semibold text-[#333] mb-4">Apps</p>
             <div className="flex flex-col gap-3">
-              <a href="#walkrun" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">WalkRun</a>
-              <a href="#walkrun" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Daily Dhikr</a>
+              <span className="text-xs text-[#bbb] cursor-default">WalkRun</span>
+              <a href="/apps/daily-dhikr" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Dhikr Counter</a>
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-[#333] mb-4">Company</p>
             <div className="flex flex-col gap-3">
-              <a href="/support" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Support</a>
-              <a href="mailto:support@kurtapps.com" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Contact</a>
+              <a href="/support" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Support</a>
+              <a href="mailto:support@kurtapps.com" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Contact</a>
             </div>
           </div>
           <div>
             <p className="text-xs font-semibold text-[#333] mb-4">Legal</p>
             <div className="flex flex-col gap-3">
-              <a href="#" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Privacy Policy</a>
-              <a href="#" className="text-xs text-[#888] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Terms of Use</a>
+              <a href="/privacy" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Privacy Policy</a>
+              <a href="/terms" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Terms of Use</a>
             </div>
           </div>
         </div>
 
         <div className="border-t border-[#f0eeea] pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
-          <p className="text-xs text-[#bbb]">© 2026 KurtApps. All rights reserved.</p>
-          <p className="text-xs text-[#ddd]">Made with care.</p>
+          <p className="text-xs text-[#777]">© 2026 KurtApps. All rights reserved.</p>
+          <p className="text-xs text-[#aaa]">Made with care.</p>
         </div>
       </div>
     </footer>
@@ -608,8 +592,8 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <WalkRunShowcase />
         <DhikrShowcase />
+        <WalkRunShowcase />
         <Support />
       </main>
       <Footer />

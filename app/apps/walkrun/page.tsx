@@ -13,11 +13,11 @@ function Navbar() {
           <Image src="/branding/logo.svg" alt="KurtApps" width={120} height={30} priority />
         </Link>
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">← All Apps</Link>
-          <Link href="/support" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">Support</Link>
+          <Link href="/#apps" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">← All Apps</Link>
+          <Link href="/support" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Support</Link>
           <a href="#" className="text-sm bg-[#111] text-white px-5 py-2 rounded-full font-medium hover:bg-[#2a2a2a] transition-all duration-200">Download</a>
         </div>
-        <button className="md:hidden text-[#888] hover:text-[#111]" onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-[#555] hover:text-[#111]" onClick={() => setOpen(!open)}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             {open
               ? <path d="M4 4l12 12M4 16L16 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -27,8 +27,8 @@ function Navbar() {
       </div>
       {open && (
         <div className="md:hidden bg-[#fafaf9] border-b border-black/[0.07] px-6 py-5 flex flex-col gap-5">
-          <Link href="/" className="text-sm text-[#888]" onClick={() => setOpen(false)}>← All Apps</Link>
-          <Link href="/support" className="text-sm text-[#888]" onClick={() => setOpen(false)}>Support</Link>
+          <Link href="/#apps" className="text-sm text-[#555]" onClick={() => setOpen(false)}>← All Apps</Link>
+          <Link href="/support" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Support</Link>
         </div>
       )}
     </nav>
@@ -91,18 +91,18 @@ export default function WalkRunPage() {
         <section className="pt-36 pb-20 px-6">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white border border-black/[0.08] rounded-full px-4 py-1.5 mb-8 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              <span className="text-xs text-[#888] tracking-wide font-medium">Fitness</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#aaa] inline-block" />
+              <span className="text-xs text-[#888] tracking-wide font-medium">Fitness · Coming Soon</span>
             </div>
             <h1 className="text-6xl md:text-8xl font-semibold tracking-tight text-[#111] leading-[1.05] mb-6">
               WalkRun
             </h1>
-            <p className="text-lg text-[#888] max-w-md mx-auto mb-10 leading-relaxed">
+            <p className="text-lg text-[#555] max-w-md mx-auto mb-10 leading-relaxed">
               Your personal running companion. Track every step, analyse every move, and hit every goal.
             </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <AppStoreBadge />
-              <GooglePlayBadge />
+            <div className="inline-flex items-center gap-2 bg-[#f5f5f3] border border-black/[0.07] rounded-full px-5 py-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#aaa] inline-block" />
+              <span className="text-sm text-[#888] font-medium">Launching soon on iOS & Android</span>
             </div>
           </div>
         </section>
@@ -141,7 +141,7 @@ export default function WalkRunPage() {
                     <div className="w-4 h-4 rounded bg-green-500" />
                   </div>
                   <h3 className="text-base font-semibold text-[#111] mb-2">{f.title}</h3>
-                  <p className="text-sm text-[#888] leading-relaxed">{f.description}</p>
+                  <p className="text-sm text-[#555] leading-relaxed">{f.description}</p>
                 </div>
               ))}
             </div>
@@ -151,23 +151,52 @@ export default function WalkRunPage() {
         {/* CTA */}
         <section className="py-24 px-6 border-t border-[#f0eeea] bg-white">
           <div className="max-w-6xl mx-auto text-center">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Download</p>
-            <h2 className="text-3xl md:text-4xl font-semibold text-[#111] tracking-tight mb-4">Start running today.</h2>
-            <p className="text-sm text-[#888] mb-8">Available on iOS and Android. Free to download.</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <AppStoreBadge />
-              <GooglePlayBadge />
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Coming Soon</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-[#111] tracking-tight mb-4">Coming to iOS & Android.</h2>
+            <p className="text-sm text-[#555] mb-8">WalkRun is currently in development. Stay tuned.</p>
+            <div className="inline-flex items-center gap-2 bg-[#f5f5f3] border border-black/[0.07] rounded-full px-5 py-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#aaa] inline-block" />
+              <span className="text-sm text-[#888] font-medium">Launching soon</span>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-[#f0eeea] bg-[#fafaf9]">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link href="/">
-            <Image src="/branding/logo.svg" alt="KurtApps" width={100} height={25} />
-          </Link>
-          <p className="text-xs text-[#bbb]">© 2026 KurtApps. All rights reserved.</p>
+      <footer className="border-t border-[#f0eeea] bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <span className="text-sm font-semibold text-[#111] block mb-3">KurtApps</span>
+              <p className="text-xs text-[#666] leading-relaxed" style={{ maxWidth: 200 }}>
+                KurtApps designs calm, modern mobile experiences that feel intuitive, useful, and beautifully simple.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Apps</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/apps/walkrun" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">WalkRun</Link>
+                <Link href="/apps/daily-dhikr" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Dhikr Counter</Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Company</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/support" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Support</Link>
+                <a href="mailto:support@kurtapps.com" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Contact</a>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Legal</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/privacy" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Privacy Policy</Link>
+                <Link href="/terms" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Terms of Use</Link>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-[#f0eeea] pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+            <p className="text-xs text-[#777]">© 2026 KurtApps. All rights reserved.</p>
+            <p className="text-xs text-[#aaa]">Made with care.</p>
+          </div>
         </div>
       </footer>
     </div>

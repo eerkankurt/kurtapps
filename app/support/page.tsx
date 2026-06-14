@@ -13,10 +13,10 @@ function Navbar() {
           <Image src="/branding/logo.svg" alt="KurtApps" width={120} height={30} priority />
         </Link>
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">← Home</Link>
-          <Link href="/#walkrun" className="text-sm text-[#888] hover:text-[#111] transition-colors duration-200">Apps</Link>
+          <Link href="/" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">← Home</Link>
+          <Link href="/#walkrun" className="text-sm text-[#555] hover:text-[#111] transition-colors duration-200">Apps</Link>
         </div>
-        <button className="md:hidden text-[#888] hover:text-[#111]" onClick={() => setOpen(!open)}>
+        <button className="md:hidden text-[#555] hover:text-[#111]" onClick={() => setOpen(!open)}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             {open
               ? <path d="M4 4l12 12M4 16L16 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -26,8 +26,8 @@ function Navbar() {
       </div>
       {open && (
         <div className="md:hidden bg-[#fafaf9] border-b border-black/[0.07] px-6 py-5 flex flex-col gap-5">
-          <Link href="/" className="text-sm text-[#888]" onClick={() => setOpen(false)}>← Home</Link>
-          <Link href="/#walkrun" className="text-sm text-[#888]" onClick={() => setOpen(false)}>Apps</Link>
+          <Link href="/" className="text-sm text-[#555]" onClick={() => setOpen(false)}>← Home</Link>
+          <Link href="/#walkrun" className="text-sm text-[#555]" onClick={() => setOpen(false)}>Apps</Link>
         </div>
       )}
     </nav>
@@ -58,7 +58,7 @@ export default function SupportPage() {
   };
 
   const inputClass =
-    "w-full bg-white border border-[#e8e7e3] rounded-2xl px-5 py-3.5 text-sm text-[#111] placeholder:text-[#c0bfbb] focus:outline-none focus:border-black/30 transition-colors duration-200";
+    "w-full bg-white border border-[#e8e7e3] rounded-2xl px-5 py-3.5 text-sm font-medium text-[#111] placeholder:text-[#888] placeholder:font-medium focus:outline-none focus:border-black/30 transition-colors duration-200";
   const labelClass = "block text-xs uppercase tracking-widest text-[#aaa] font-medium mb-2.5";
 
   return (
@@ -77,7 +77,7 @@ export default function SupportPage() {
             <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#111] leading-[1.1] mb-5">
               We&apos;re here<br />to help.
             </h1>
-            <p className="text-sm text-[#888] leading-relaxed max-w-sm">
+            <p className="text-sm text-[#555] leading-relaxed max-w-sm">
               Select your app, describe the issue, and we&apos;ll get back to you within 24 hours.
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function SupportPage() {
                 </svg>
               </div>
               <h2 className="text-lg font-semibold text-[#111] mb-2">Message received.</h2>
-              <p className="text-sm text-[#888] leading-relaxed max-w-xs mx-auto">
+              <p className="text-sm text-[#555] leading-relaxed max-w-xs mx-auto">
                 Thanks — your message is ready to be connected to support email.
               </p>
               <button
@@ -109,7 +109,7 @@ export default function SupportPage() {
               <div>
                 <span className={labelClass}>App</span>
                 <div className="flex gap-3">
-                  {["WalkRun", "Daily Dhikr"].map(app => (
+                  {["WalkRun", "Dhikr Counter"].map(app => (
                     <button
                       key={app}
                       type="button"
@@ -185,11 +185,40 @@ export default function SupportPage() {
       </main>
 
       <footer className="border-t border-[#f0eeea] bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link href="/">
-            <Image src="/branding/logo.svg" alt="KurtApps" width={100} height={25} />
-          </Link>
-          <p className="text-xs text-[#bbb]">© 2026 KurtApps. All rights reserved.</p>
+        <div className="max-w-6xl mx-auto px-6 py-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <span className="text-sm font-semibold text-[#111] block mb-3">KurtApps</span>
+              <p className="text-xs text-[#666] leading-relaxed" style={{ maxWidth: 200 }}>
+                KurtApps designs calm, modern mobile experiences that feel intuitive, useful, and beautifully simple.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Apps</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/apps/walkrun" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">WalkRun</Link>
+                <Link href="/apps/daily-dhikr" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Dhikr Counter</Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Company</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/support" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Support</Link>
+                <a href="mailto:support@kurtapps.com" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Contact</a>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-[#333] mb-4">Legal</p>
+              <div className="flex flex-col gap-3">
+                <Link href="/privacy" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Privacy Policy</Link>
+                <Link href="/terms" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Terms of Use</Link>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-[#f0eeea] pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+            <p className="text-xs text-[#777]">© 2026 KurtApps. All rights reserved.</p>
+            <p className="text-xs text-[#aaa]">Made with care.</p>
+          </div>
         </div>
       </footer>
     </div>
