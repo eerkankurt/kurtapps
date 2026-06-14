@@ -438,11 +438,11 @@ function FeatureCarousel() {
       ))}
 
       {/* Pinned visual stage — sticky relative to the window */}
-      <div className="sticky top-16 overflow-hidden" style={{ zIndex: 1, height: "calc(100vh - 64px)" }}>
-        <div className="h-full max-w-6xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-16">
+      <div className="sticky top-16 overflow-hidden carousel-sticky-stage" style={{ zIndex: 1, height: "calc(100vh - 64px)" }}>
+        <div className="h-full max-w-6xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-16 carousel-grid">
 
           {/* LEFT — 3D phone, driven by activeFloatRef (scroll progress) */}
-          <div style={{ position: "relative", height: 620 }}>
+          <div className="carousel-phone-col" style={{ position: "relative", height: 620 }}>
             {/* Subtle radial glow behind the carousel */}
             <div aria-hidden style={{
               position: "absolute", inset: "-15% -10%",
@@ -453,9 +453,9 @@ function FeatureCarousel() {
           </div>
 
           {/* RIGHT — content, driven by currentFeatureIndex (derived) */}
-          <div>
+          <div className="carousel-text-col">
             {/* Feature counter */}
-            <div className="mb-6">
+            <div className="mb-6 carousel-feature-counter">
               <p className="text-[10px] uppercase tracking-[0.2em] text-[#bbb] font-medium mb-1">Features</p>
               <p className="text-sm font-semibold tabular-nums" style={{ color: "#52BF1B" }}>
                 {String(currentFeatureIndex + 1).padStart(2, "0")}
@@ -472,14 +472,14 @@ function FeatureCarousel() {
             </h3>
             <p
               key={`d-${currentFeatureIndex}`}
-              className="text-[#555] leading-relaxed"
+              className="text-[#555] leading-relaxed carousel-description"
               style={{ maxWidth: 360, animation: "fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both" }}
             >
               {slides[currentFeatureIndex].description}
             </p>
 
             {/* Progress indicator */}
-            <div className="mt-14" style={{ maxWidth: 360 }}>
+            <div className="mt-14 carousel-progress" style={{ maxWidth: 360 }}>
               <div style={{ height: 5, background: "#d4efc8", borderRadius: 3, overflow: "hidden" }}>
                 <div
                   ref={progressBarRef}
@@ -509,7 +509,7 @@ export default function DhikrCounterPage() {
 
       <main>
         {/* Hero */}
-        <section className="px-6 relative" style={{ paddingTop: "274px", paddingBottom: 0, minHeight: "100vh" }}>
+        <section className="px-6 relative dhikr-hero" style={{ paddingTop: "274px", paddingBottom: 0, minHeight: "100vh" }}>
           {/* Soft ambient glow behind hero content — fades before section edge */}
           <div aria-hidden style={{
             position: "absolute", inset: 0,
@@ -517,14 +517,14 @@ export default function DhikrCounterPage() {
             pointerEvents: "none",
           }} />
           <div style={{ maxWidth: 960, margin: "0 auto", textAlign: "center", position: "relative" }}>
-            <div className="inline-flex items-center gap-2 bg-white border border-black/[0.12] rounded-full px-4 py-1.5 mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-white border border-black/[0.12] rounded-full px-4 py-1.5 mb-4 md:mb-8 shadow-sm">
               <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#52BF1B" }} />
               <span className="text-xs text-[#666] tracking-wide font-medium">Spirituality · Available Now</span>
             </div>
-            <h1 className="text-6xl md:text-[86px] font-semibold tracking-tight text-[#111] leading-[1.05] mb-6">
+            <h1 className="text-[2.75rem] md:text-[86px] font-semibold tracking-tight text-[#111] leading-[1.05] mb-3 md:mb-6">
               Dhikr Counter
             </h1>
-            <p className="text-lg text-[#555] max-w-md mx-auto mb-10 leading-relaxed">
+            <p className="text-sm md:text-lg text-[#555] max-w-md mx-auto mb-6 md:mb-10 leading-relaxed">
               A calm, beautiful space for your daily remembrance. Build a practice that lasts a lifetime.
             </p>
             <AppStoreBadge />
@@ -535,7 +535,7 @@ export default function DhikrCounterPage() {
         <FeatureCarousel />
 
         {/* CTA */}
-        <section className="py-24 px-6">
+        <section className="py-14 md:py-24 px-6">
           <div className="max-w-6xl mx-auto text-center">
             <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5">Download</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-[#111] tracking-tight mb-4">Begin your practice.</h2>
@@ -552,7 +552,7 @@ export default function DhikrCounterPage() {
         </section>
       </main>
 
-      <footer className="border-t border-[#f0eeea] bg-white">
+      <footer className="border-t border-[#f0eeea]">
         <div className="max-w-6xl mx-auto px-6 py-14">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             <div className="col-span-2 md:col-span-1">
@@ -564,7 +564,6 @@ export default function DhikrCounterPage() {
             <div>
               <p className="text-xs font-semibold text-[#333] mb-4">Apps</p>
               <div className="flex flex-col gap-3">
-                <Link href="/apps/walkrun" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">WalkRun</Link>
                 <Link href="/apps/daily-dhikr" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Dhikr Counter</Link>
               </div>
             </div>

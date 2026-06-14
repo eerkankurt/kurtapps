@@ -34,3 +34,54 @@ body {
 .d4          { animation-delay: 0.44s; opacity: 0; }
 .float       { animation: float 6s ease-in-out infinite; }
 .float-delay { animation: float 6s ease-in-out 1.8s infinite; }
+
+.carousel-description { min-height: 80px; }
+
+@media (max-width: 768px) {
+  .phone-wrap-mobile {
+    transform: scale(0.86);
+    transform-origin: center top;
+    margin-bottom: -42px;
+  }
+
+  /* ── Daily Dhikr page — mobile only ── */
+
+  .dhikr-hero {
+    padding-top: 90px !important;
+    min-height: auto !important;
+    padding-bottom: 32px !important;
+  }
+
+  .carousel-sticky-stage {
+    height: calc(100svh - 64px) !important;
+  }
+
+  .carousel-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .carousel-phone-col {
+    height: clamp(300px, 55svh, 480px) !important;
+    flex-shrink: 0;
+  }
+
+  .carousel-text-col {
+    flex: 1;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 16px;
+    min-height: 0;
+  }
+
+  .carousel-feature-counter {
+    margin-bottom: 8px !important;
+  }
+
+  .carousel-progress {
+    margin-top: 56px !important;
+  }
+}

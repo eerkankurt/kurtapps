@@ -220,7 +220,7 @@ export default function SupportPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[#f0eeea] bg-white">
+      <footer className="border-t border-[#f0eeea]">
         <div className="max-w-6xl mx-auto px-6 py-14">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
             <div className="col-span-2 md:col-span-1">
@@ -232,7 +232,6 @@ export default function SupportPage() {
             <div>
               <p className="text-xs font-semibold text-[#333] mb-4">Apps</p>
               <div className="flex flex-col gap-3">
-                <Link href="/apps/walkrun" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">WalkRun</Link>
                 <Link href="/apps/daily-dhikr" className="text-xs text-[#666] hover:text-[#111] hover:opacity-80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">Dhikr Counter</Link>
               </div>
             </div>
