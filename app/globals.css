@@ -96,8 +96,14 @@ body {
     margin-bottom: 6px !important;
   }
 
+  .carousel-content-area {
+    /* Fixed-height wrapper: h3 (36px + mb-4 16px) + description (3-line Feature 5 = 78px) = 130px.
+       Pins the progress bar to Feature 5's Y position on every slide. */
+    min-height: 130px;
+  }
+
   .carousel-description {
-    min-height: 48px !important;
+    min-height: 78px !important;
   }
 
   .carousel-progress {

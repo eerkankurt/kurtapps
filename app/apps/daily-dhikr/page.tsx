@@ -456,7 +456,7 @@ function FeatureCarousel() {
             {/* Feature counter */}
             <div className="mb-6 carousel-feature-counter">
               <p className="text-[10px] uppercase tracking-[0.2em] text-[#bbb] font-medium mb-1">Features</p>
-              <p className="text-sm font-semibold tabular-nums" style={{ color: "#52BF1B" }}>
+              <p className="text-sm font-semibold tabular-nums" style={{ color: currentFeatureIndex === TOTAL - 1 ? "#0E433F" : "#52BF1B" }}>
                 {String(currentFeatureIndex + 1).padStart(2, "0")}
                 <span className="font-normal text-[#ccc] mx-1">/</span>
                 {String(TOTAL).padStart(2, "0")}
@@ -486,7 +486,7 @@ function FeatureCarousel() {
                   ref={progressBarRef}
                   style={{
                     height: "100%",
-                    background: "#52BF1B",
+                    background: currentFeatureIndex === TOTAL - 1 ? "#0E433F" : "#52BF1B",
                     borderRadius: 3,
                     transformOrigin: "left",
                     transform: "scaleX(0)",
@@ -518,14 +518,14 @@ export default function DhikrCounterPage() {
             pointerEvents: "none",
           }} />
           <div style={{ maxWidth: 960, margin: "0 auto", textAlign: "center", position: "relative" }}>
-            <div className="inline-flex items-center gap-2 bg-white border border-black/[0.12] rounded-full px-4 py-1.5 mb-4 md:mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-white border border-black/[0.12] rounded-full px-4 py-1.5 mb-7 md:mb-10 shadow-sm">
               <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#52BF1B" }} />
               <span className="text-xs text-[#666] tracking-wide font-medium">Faith & Mindfulness · Available Now</span>
             </div>
-            <h1 className="text-[2.75rem] md:text-[86px] font-semibold tracking-tight text-[#111] leading-[1.05] mb-3 md:mb-6">
+            <h1 className="text-[2.75rem] md:text-[86px] font-semibold tracking-tight text-[#111] leading-[1.05] mb-6 md:mb-7">
               Dhikr Counter
             </h1>
-            <p className="text-sm md:text-lg text-[#555] max-w-md mx-auto mb-6 md:mb-10 leading-relaxed">
+            <p className="text-sm md:text-lg text-[#555] max-w-md mx-auto mb-8 md:mb-10 leading-relaxed">
               Track your dhikr, create goals, and stay consistent with gentle reminders.
 
 Designed to support your daily spiritual practice with a simple and modern experience.

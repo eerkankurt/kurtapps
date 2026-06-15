@@ -22,6 +22,9 @@ function makeScreenTexture(idx: number) {
   const tex = new THREE.TextureLoader().load(SCREEN_IMAGES[idx]);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.flipY = true;
+  tex.generateMipmaps = false;
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
   return tex;
 }
 
@@ -40,7 +43,6 @@ function Phone({ idx, count, indexRef }: { idx: number; count: number; indexRef:
     const clone = scene.clone(true);
     clone.updateMatrixWorld(true);
 
-    // find the screen mesh + apply placeholder screenshot
     const tex = makeScreenTexture(idx);
     let screenMesh: THREE.Mesh | null = null;
     const applyScreen = (mesh: THREE.Mesh) => {
@@ -160,6 +162,7 @@ function Phone({ idx, count, indexRef }: { idx: number; count: number; indexRef:
 function StudioEnv() {
   const { gl, scene } = useThree();
   useEffect(() => {
+    gl.outputColorSpace = THREE.SRGBColorSpace;
     const pmrem = new THREE.PMREMGenerator(gl);
     const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
     scene.environment = env;
@@ -191,6 +194,7 @@ export default function PhoneCarousel({ activeRef, count }: { activeRef: React.M
     <Canvas
       camera={{ position: [0, 0, 9], fov: 40 }}
       gl={{ antialias: true, alpha: true }}
+      dpr={[1, 3]}
       style={{ width: "100%", height: "100%" }}
     >
       <StudioEnv />

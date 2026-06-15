@@ -20,13 +20,18 @@ function FadeIn({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // bfcache restore: page is shown from cache, skip animation
+    const onPageShow = (e: PageTransitionEvent) => { if (e.persisted) setVisible(true); };
+    window.addEventListener("pageshow", onPageShow);
+
     const isMobile = window.innerWidth < 768;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setVisible(true); },
       { threshold: 0, rootMargin: isMobile ? "0px 0px 180px 0px" : "0px" }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); window.removeEventListener("pageshow", onPageShow); };
   }, []);
 
   return (
@@ -67,13 +72,13 @@ function StatusIcons() {
 /* ── iPhone frame ── */
 function IPhone({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative" style={{ width: 276, height: 542 }}>
+    <div className="relative" style={{ width: 276, height: 556 }}>
       {/* Left buttons */}
-      <div className="absolute" style={{ left: 2, top: 108, width: 4, height: 22, borderRadius: 2, background: "#2a2a2c" }} />
-      <div className="absolute" style={{ left: 2, top: 142, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
-      <div className="absolute" style={{ left: 2, top: 186, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ left: 2, top: 111, width: 4, height: 21, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ left: 2, top: 146, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ left: 2, top: 191, width: 4, height: 34, borderRadius: 2, background: "#2a2a2c" }} />
       {/* Right button */}
-      <div className="absolute" style={{ right: 2, top: 154, width: 4, height: 54, borderRadius: 2, background: "#2a2a2c" }} />
+      <div className="absolute" style={{ right: 2, top: 158, width: 4, height: 56, borderRadius: 2, background: "#2a2a2c" }} />
 
       {/* Main frame - black */}
       <div
@@ -90,8 +95,8 @@ function IPhone({ children }: { children: React.ReactNode }) {
         <div className="relative w-full h-full overflow-hidden" style={{ borderRadius: 46, background: "#fff" }}>
           {/* Dynamic Island */}
           <div className="absolute" style={{
-            top: 12, left: "50%", transform: "translateX(-50%)",
-            width: 100, height: 28,
+            top: 8, left: "50%", transform: "translateX(-50%)",
+            width: 76, height: 22,
             borderRadius: 20,
             background: "#000",
             zIndex: 10,
@@ -269,7 +274,7 @@ function PhoneTilt({ children }: { children: React.ReactNode }) {
           transition: hovered
             ? "transform 0.15s ease-out"
             : "transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94)",
-          willChange: "transform",
+          willChange: hovered ? "transform" : "auto",
         }}
       >
         {children}
@@ -417,12 +422,12 @@ function WalkRunShowcase() {
         <div className="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
 
           <FadeIn className="order-2 md:order-2">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Fitness · Coming Soon</p>
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Health & Fitness · Coming Soon</p>
             <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6 md:mb-6">
               WalkRun
             </h2>
             <p className="text-[#555] leading-relaxed mb-9 md:mb-10" style={{ maxWidth: 340 }}>
-              Track your walks, runs, and hikes with detailed analytics, smart route tracking, and real-time performance insights.
+              Track your walks, runs, and outdoor activities, view your progress with detailed statistics, and stay motivated to reach your goals.
             </p>
 
             <div className="inline-flex items-center gap-2 bg-[#f5f5f3] border border-black/[0.07] rounded-full px-4 py-2">
@@ -474,19 +479,21 @@ function DhikrShowcase() {
               }} />
               <PhoneTilt>
                 <div className="float-delay">
-                  <IPhone><DhikrScreen /></IPhone>
+                  <IPhone>
+                    <Image src="/dhikr-home.png" alt="Dhikr Counter app" fill unoptimized style={{ objectFit: "cover", objectPosition: "top" }} />
+                  </IPhone>
                 </div>
               </PhoneTilt>
             </div>
           </FadeIn>
 
           <FadeIn delay={120} className="md:order-1 md:pl-28">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Spirituality · Available Now</p>
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Faith & Mindfulness · Available Now</p>
             <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6 md:mb-6">
               Dhikr Counter
             </h2>
             <p className="text-[#555] leading-relaxed mb-9 md:mb-10" style={{ maxWidth: 340 }}>
-              Count your dhikr with a built-in counter, set daily goals, create reminders, and track your progress.
+              Track your dhikr, set personal goals, stay consistent with reminders, and support your spiritual journey through a modern and intuitive experience.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -587,6 +594,20 @@ function Footer() {
 
 /* ── Page ── */
 export default function Home() {
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (!e.persisted) return;
+      // CSS fade-up animations: skip them on bfcache restore
+      document.querySelectorAll<HTMLElement>(".fade-up").forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+        el.style.animation = "none";
+      });
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   return (
     <div className="bg-[#fafaf9] text-[#111] min-h-screen">
       <Navbar />
