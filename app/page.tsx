@@ -376,27 +376,27 @@ function Navbar() {
 /* ── Hero ── */
 function Hero() {
   return (
-    <section className="relative pt-20 pb-8 md:pt-36 md:pb-32 px-6 overflow-hidden">
+    <section className="relative pt-28 pb-10 md:pt-36 md:pb-32 px-6 overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(220,218,255,0.5), transparent)" }}
       />
       <div className="relative max-w-4xl mx-auto text-center">
-        <div className="fade-up d1 inline-flex items-center gap-2 bg-white border border-black/[0.08] rounded-full px-4 py-1.5 mb-5 md:mb-10 shadow-sm">
+        <div className="fade-up d1 inline-flex items-center gap-2 bg-white border border-black/[0.08] rounded-full px-4 py-1.5 mb-7 md:mb-10 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1] inline-block" />
           <span className="text-xs text-[#888] tracking-wide font-medium">Premium Mobile Apps</span>
         </div>
 
-        <h1 className="fade-up d2 text-[2.2rem] md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight text-[#111] leading-[1.1] md:leading-[1.06] mb-4 md:mb-7">
+        <h1 className="fade-up d2 text-[2.2rem] md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight text-[#111] leading-[1.1] md:leading-[1.06] mb-6 md:mb-7">
           Thoughtful apps for<br />
           <span className="text-[#c0c0c0]">everyday life.</span>
         </h1>
 
-        <p className="fade-up d3 text-sm md:text-lg text-[#555] max-w-sm mx-auto mb-6 md:mb-10 leading-relaxed">
+        <p className="fade-up d3 text-sm md:text-lg text-[#555] max-w-sm mx-auto mb-8 md:mb-10 leading-relaxed">
           KurtApps designs calm, modern mobile experiences that feel intuitive, useful, and beautifully simple.
         </p>
 
-        <div className="fade-up d4 flex flex-col sm:flex-row items-center justify-center gap-2.5 md:gap-3">
+        <div className="fade-up d4 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-3">
           <button onClick={() => document.getElementById("apps")?.scrollIntoView({ behavior: "smooth" })} className="w-full sm:w-auto text-sm bg-[#111] text-white px-7 py-2.5 md:py-3 rounded-full font-medium hover:bg-[#2a2a2a] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.14)] active:scale-[0.97] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
             Explore Apps
           </button>
@@ -412,16 +412,16 @@ function Hero() {
 /* ── WalkRun showcase ── */
 function WalkRunShowcase() {
   return (
-    <section id="walkrun" className="px-6 overflow-hidden md:min-h-screen flex items-center py-12 md:py-0">
+    <section id="walkrun" className="px-6 overflow-hidden md:min-h-screen flex items-center py-16 md:py-0">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-20 items-center">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
 
           <FadeIn className="order-2 md:order-2">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-4 md:mb-5">Fitness · Coming Soon</p>
-            <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-4 md:mb-6">
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Fitness · Coming Soon</p>
+            <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6 md:mb-6">
               WalkRun
             </h2>
-            <p className="text-[#555] leading-relaxed mb-7 md:mb-10" style={{ maxWidth: 340 }}>
+            <p className="text-[#555] leading-relaxed mb-9 md:mb-10" style={{ maxWidth: 340 }}>
               Track your walks, runs, and hikes with detailed analytics, smart route tracking, and real-time performance insights.
             </p>
 
@@ -458,9 +458,9 @@ function WalkRunShowcase() {
 /* ── Dhikr Counter showcase ── */
 function DhikrShowcase() {
   return (
-    <section id="apps" className="px-6 overflow-hidden md:min-h-screen flex items-center py-12 md:py-0">
+    <section id="apps" className="px-6 overflow-hidden md:min-h-screen flex items-center py-16 md:py-0">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-20 items-center">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
 
           <FadeIn delay={80} className="flex justify-center md:order-2">
             <div className="relative phone-wrap-mobile">
@@ -481,11 +481,11 @@ function DhikrShowcase() {
           </FadeIn>
 
           <FadeIn delay={120} className="md:order-1 md:pl-28">
-            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-4 md:mb-5">Spirituality · Available Now</p>
-            <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-4 md:mb-6">
+            <p className="text-xs uppercase tracking-widest text-[#aaa] font-medium mb-5 md:mb-5">Spirituality · Available Now</p>
+            <h2 className="text-4xl md:text-6xl font-semibold text-[#111] tracking-tight leading-[1.05] mb-6 md:mb-6">
               Dhikr Counter
             </h2>
-            <p className="text-[#555] leading-relaxed mb-7 md:mb-10" style={{ maxWidth: 340 }}>
+            <p className="text-[#555] leading-relaxed mb-9 md:mb-10" style={{ maxWidth: 340 }}>
               Count your dhikr with a built-in counter, set daily goals, create reminders, and track your progress.
             </p>
 
