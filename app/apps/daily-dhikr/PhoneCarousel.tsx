@@ -8,113 +8,20 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 
 useGLTF.preload("/models/iphone.glb");
 
-/* ── Placeholder screen textures (drawn on a canvas) ── */
-function drawScreen(ctx: CanvasRenderingContext2D, w: number, h: number, idx: number) {
-  if (idx === 0) {
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, "#f5f3ff"); g.addColorStop(1, "#ddd6fe");
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#7c3aed"; ctx.font = "bold 34px sans-serif"; ctx.textAlign = "center";
-    ctx.fillText("DHIKR COUNTER", w / 2, 120);
-    ctx.fillStyle = "#8b5cf6"; ctx.font = "44px serif";
-    ctx.fillText("سُبْحَانَ اللَّه", w / 2, 200);
-    const cx = w / 2, cy = h / 2, r = 150;
-    const cg = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
-    cg.addColorStop(0, "#6d28d9"); cg.addColorStop(1, "#8b5cf6");
-    ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#fff"; ctx.font = "bold 130px sans-serif"; ctx.fillText("33", cx, cy + 48);
-    ctx.fillStyle = "#a78bfa"; ctx.font = "30px sans-serif"; ctx.fillText("33 / 99", cx, cy + r + 90);
-  } else if (idx === 1) {
-    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Today", 60, 130);
-    const items = [["SubhanAllah", 0.99], ["Alhamdulillah", 0.72], ["Allahu Akbar", 0.45]] as const;
-    items.forEach(([name, pct], i) => {
-      const y = 240 + i * 150;
-      ctx.fillStyle = "#444"; ctx.font = "30px sans-serif"; ctx.fillText(name as string, 60, y);
-      ctx.fillStyle = "#f3f0ff"; ctx.beginPath(); ctx.roundRect(60, y + 24, w - 120, 22, 11); ctx.fill();
-      const grad = ctx.createLinearGradient(60, 0, w - 60, 0);
-      grad.addColorStop(0, "#6d28d9"); grad.addColorStop(1, "#8b5cf6");
-      ctx.fillStyle = grad; ctx.beginPath(); ctx.roundRect(60, y + 24, (w - 120) * (pct as number), 22, 11); ctx.fill();
-    });
-  } else if (idx === 2) {
-    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Reminders", 60, 130);
-    const rem = [["06:00", true], ["13:00", true], ["18:00", false], ["21:00", true]] as const;
-    rem.forEach(([t, on], i) => {
-      const y = 230 + i * 130;
-      ctx.fillStyle = "#111"; ctx.font = "bold 40px sans-serif"; ctx.fillText(t as string, 60, y);
-      ctx.fillStyle = on ? "#7c3aed" : "#e5e7eb";
-      ctx.beginPath(); ctx.roundRect(w - 170, y - 38, 100, 56, 28); ctx.fill();
-      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(on ? w - 100 : w - 140, y - 10, 22, 0, Math.PI * 2); ctx.fill();
-    });
-  } else if (idx === 3) {
-    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("History", 60, 130);
-    const days = [0.88, 1, 0.67, 1, 0.33, 0.89, 0.55];
-    days.forEach((pct, i) => {
-      const y = 220 + i * 110;
-      ctx.fillStyle = "#f3f0ff"; ctx.beginPath(); ctx.roundRect(120, y, w - 200, 40, 20); ctx.fill();
-      const grad = ctx.createLinearGradient(120, 0, w - 80, 0);
-      grad.addColorStop(0, "#6d28d9"); grad.addColorStop(1, "#a78bfa");
-      ctx.fillStyle = grad; ctx.beginPath(); ctx.roundRect(120, y, (w - 200) * pct, 40, 20); ctx.fill();
-    });
-  } else if (idx === 4) {
-    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Collections", 60, 130);
-    const items = ["Morning Adhkar", "Evening Adhkar", "After Prayer", "Gratitude", "Protection"];
-    const colors = ["#7c3aed", "#6d28d9", "#5b21b6", "#4c1d95", "#3b0764"];
-    items.forEach((name, i) => {
-      const y = 210 + i * 140;
-      ctx.fillStyle = colors[i]; ctx.beginPath(); ctx.roundRect(60, y - 40, 72, 72, 20); ctx.fill();
-      ctx.fillStyle = "#222"; ctx.font = "30px sans-serif"; ctx.fillText(name, 152, y - 2);
-      ctx.fillStyle = "#ddd6fe"; ctx.fillRect(60, y + 46, w - 120, 1);
-    });
-  } else if (idx === 5) {
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, "#f5f3ff"); g.addColorStop(1, "#ede9fe");
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Daily Goal", 60, 130);
-    ctx.fillStyle = "#a78bfa"; ctx.font = "28px sans-serif"; ctx.fillText("Set your intention", 60, 178);
-    const goals = [["33", "Tasbeeh"], ["99", "Full Round"], ["300", "Dedicated"], ["∞", "Unlimited"]];
-    goals.forEach(([n, label], i) => {
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = 60 + col * 210, y = 240 + row * 200;
-      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.roundRect(x, y, 190, 170, 32); ctx.fill();
-      ctx.fillStyle = "#6d28d9"; ctx.font = "bold 60px sans-serif"; ctx.textAlign = "center";
-      ctx.fillText(n, x + 95, y + 90);
-      ctx.fillStyle = "#a78bfa"; ctx.font = "26px sans-serif"; ctx.fillText(label, x + 95, y + 134);
-    });
-  } else {
-    ctx.fillStyle = "#f2f2f7"; ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = "#111"; ctx.font = "bold 42px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Widget", 60, 130);
-    ctx.fillStyle = "#bbb"; ctx.font = "28px sans-serif"; ctx.fillText("Home screen", 60, 178);
-    const wg = ctx.createLinearGradient(60, 210, 60, 480);
-    wg.addColorStop(0, "#6d28d9"); wg.addColorStop(1, "#8b5cf6");
-    ctx.fillStyle = wg; ctx.beginPath(); ctx.roundRect(60, 210, w - 120, 270, 44); ctx.fill();
-    ctx.fillStyle = "rgba(255,255,255,0.6)"; ctx.font = "26px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText("Dhikr Counter", 100, 270);
-    ctx.fillStyle = "#fff"; ctx.font = "bold 100px sans-serif"; ctx.fillText("33", 100, 390);
-    ctx.fillStyle = "rgba(255,255,255,0.25)"; ctx.beginPath(); ctx.roundRect(100, 420, w - 200, 16, 8); ctx.fill();
-    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.roundRect(100, 420, (w - 200) * 0.33, 16, 8); ctx.fill();
-    ctx.fillStyle = "rgba(255,255,255,0.6)"; ctx.font = "24px sans-serif"; ctx.fillText("33 of 99 · SubhanAllah", 100, 460);
-  }
-}
+const SCREEN_IMAGES = [
+  "/dhikr-screens/1.png",
+  "/dhikr-screens/2.png",
+  "/dhikr-screens/3.png",
+  "/dhikr-screens/4.png",
+  "/dhikr-screens/5.png",
+  "/dhikr-screens/6.png",
+  "/dhikr-screens/7.png",
+];
 
 function makeScreenTexture(idx: number) {
-  const w = 512, h = 1100;
-  const canvas = document.createElement("canvas");
-  canvas.width = w; canvas.height = h;
-  const ctx = canvas.getContext("2d")!;
-  drawScreen(ctx, w, h, idx);
-  const tex = new THREE.CanvasTexture(canvas);
+  const tex = new THREE.TextureLoader().load(SCREEN_IMAGES[idx]);
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.flipY = true; // we map it onto our own plane (standard UVs)
+  tex.flipY = true;
   return tex;
 }
 

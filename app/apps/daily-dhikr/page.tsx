@@ -285,38 +285,38 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
 const slides = [
   {
     Screen: CounterScreen,
-    title: "Count with intention.",
-    description: "A focused, beautiful counter for your daily dhikr. Simple to use, meaningful every time.",
+    title: "Discover a Name of Allah every day",
+    description: "Discover a daily Name of Allah and track your dhikr progress.",
   },
   {
     Screen: ProgressScreen,
-    title: "Track your practice.",
-    description: "See your daily progress, streaks, and totals — all in one clean, motivating view.",
+    title: "Count with ease",
+    description: "Count your dhikr, set goals, and track your progress.",
   },
   {
     Screen: ReminderScreen,
-    title: "Never miss a session.",
-    description: "Set gentle reminders throughout the day to help maintain a consistent spiritual practice.",
+    title: "Save your dhikrs",
+    description: "Add, edit, and manage your personal dhikr collection.",
   },
   {
     Screen: HistoryScreen,
-    title: "Watch yourself grow.",
-    description: "A visual history of your journey — every session recorded, every milestone celebrated.",
+    title: "Create your own lists",
+    description: "Build personalized dhikr lists for every occasion.",
   },
   {
     Screen: CollectionsScreen,
-    title: "Choose your practice.",
-    description: "Browse a library of dhikr collections for every moment — morning, evening, after prayer, and more.",
+    title: "Stay consistent",
+    description: "Maintain your dhikr routine with daily reminders.",
   },
   {
     Screen: GoalsScreen,
-    title: "Set your intention.",
-    description: "Define your daily dhikr goals and stay on track with gentle, meaningful targets.",
+    title: "Find the Qibla",
+    description: "Quickly find the Qibla direction wherever you are.",
   },
   {
     Screen: WidgetScreen,
-    title: "Always within reach.",
-    description: "A beautiful home screen widget keeps your practice visible and your intentions clear.",
+    title: "Reach your goals",
+    description: "Complete goal-based dhikr lists and monitor your progress.",
   },
 ];
 
@@ -462,20 +462,22 @@ function FeatureCarousel() {
                 {String(TOTAL).padStart(2, "0")}
               </p>
             </div>
-            <h3
-              key={currentFeatureIndex}
-              className="text-3xl md:text-4xl font-semibold text-[#111] tracking-tight mb-4"
-              style={{ animation: "fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards" }}
-            >
-              {slides[currentFeatureIndex].title}
-            </h3>
-            <p
-              key={`d-${currentFeatureIndex}`}
-              className="text-[#555] leading-relaxed carousel-description"
-              style={{ maxWidth: 360, animation: "fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both" }}
-            >
-              {slides[currentFeatureIndex].description}
-            </p>
+            <div className="carousel-content-area">
+              <h3
+                key={currentFeatureIndex}
+                className="text-3xl md:text-4xl font-semibold text-[#111] tracking-tight mb-4"
+                style={{ animation: "fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards" }}
+              >
+                {slides[currentFeatureIndex].title}
+              </h3>
+              <p
+                key={`d-${currentFeatureIndex}`}
+                className="text-[#555] leading-relaxed carousel-description"
+                style={{ maxWidth: 360, animation: "fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.05s both" }}
+              >
+                {slides[currentFeatureIndex].description}
+              </p>
+            </div>
 
             {/* Progress indicator */}
             <div className="mt-14 carousel-progress" style={{ maxWidth: 360 }}>
@@ -518,13 +520,15 @@ export default function DhikrCounterPage() {
           <div style={{ maxWidth: 960, margin: "0 auto", textAlign: "center", position: "relative" }}>
             <div className="inline-flex items-center gap-2 bg-white border border-black/[0.12] rounded-full px-4 py-1.5 mb-4 md:mb-8 shadow-sm">
               <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#52BF1B" }} />
-              <span className="text-xs text-[#666] tracking-wide font-medium">Spirituality · Available Now</span>
+              <span className="text-xs text-[#666] tracking-wide font-medium">Faith & Mindfulness · Available Now</span>
             </div>
             <h1 className="text-[2.75rem] md:text-[86px] font-semibold tracking-tight text-[#111] leading-[1.05] mb-3 md:mb-6">
               Dhikr Counter
             </h1>
             <p className="text-sm md:text-lg text-[#555] max-w-md mx-auto mb-6 md:mb-10 leading-relaxed">
-              A calm, beautiful space for your daily remembrance. Build a practice that lasts a lifetime.
+              Track your dhikr, create goals, and stay consistent with gentle reminders.
+
+Designed to support your daily spiritual practice with a simple and modern experience.
             </p>
             <AppStoreBadge />
           </div>
